@@ -1,0 +1,34 @@
+<div>
+  <mat-form-field class="product-field">
+    <input matInput [formControl]="name" placeholder="Имя продукта">
+  </mat-form-field>
+
+  <button mat-button (click)="addItem()">Добавить продукт</button>
+</div>
+
+<div>
+  <mat-form-field class="product-field">
+    <input matInput [formControl]="filter" placeholder="Поиск">
+  </mat-form-field>
+</div>
+
+<div class="lists">
+  <mat-list role="list">
+    <mat-list-item *ngFor="let item of items">
+      <span class="item" (click)="selectItem(item)">{{ item.name }}</span>
+    </mat-list-item>
+  </mat-list>
+
+  <div class="selected">
+    <div class="selected_label">
+      Уже выбрано: {{ selectedCount }}
+      <button mat-button (click)="clearBucket()">Очистить</button>
+    </div>
+
+    <mat-list class="selected_list">
+      <mat-list-item *ngFor="let item of selected">
+        <span class="item" (click)="excludeItem(item)">{{ item.name }}</span>
+      </mat-list-item>
+    </mat-list>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+.toggle {
+  display: flex;
+  justify-content: flex-end;
+}
+
+:host {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.lists {
+  display: flex;
+  justify-content: space-between;
+}
+
+.selected {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+.selected_label {
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.selected_list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.product-field {
+  padding: 16px;
+}
+
+.item {
+  cursor: pointer;
+}
+
