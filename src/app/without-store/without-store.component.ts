@@ -11,17 +11,17 @@ import {contains} from '../../utils/contains';
 @Component({
   selector: 'app-without-store',
   templateUrl: 'without-store.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WithoutStoreComponent implements OnInit, OnDestroy {
   name = new FormControl();
   filter = new FormControl();
 
-  @observable
+  // @observable
   selected: IItems = [];
-  @observable
+  // @observable
   private _items: IItems = [];
-  @observable
+  // @observable
   private filterValue = '';
 
   private dispose: IReactionDisposer;
@@ -34,40 +34,55 @@ export class WithoutStoreComponent implements OnInit, OnDestroy {
     this.api.getItems()
       .subscribe(items => {
         this._items = items;
+        // this.cd.detectChanges();
       });
 
     this.filter.valueChanges.subscribe(v => this.filterValue = v);
 
-    this.dispose = autorun(() => this.cd.detectChanges());
+    // this.dispose = autorun(() => this.cd.detectChanges());
   }
 
   ngOnDestroy() {
-    this.dispose();
+    // this.dispose();
   }
 
-  @computed
-  @log
+  // @computed
+  // @log
   get selectedCount(): number {
     return this.selected.length;
   }
 
-  @computed
-  @log
+  // @computed
+  // @log
   get items(): IItems {
-    return this._items.filter(item => contains(item, this.filterValue));
+    return this._items.filter(item =>
+      contains(item, this.filterValue)
+      && !this.selected.includes(item)
+    );
   }
 
-  @action
+  // @computed
+  // @log
+  get canSelectAll(): boolean {
+    return !!this.items.length;
+  }
+
+  // @action
   selectItem(item: IItem) {
     this.selected.push(item);
   }
 
-  @action
+  // @action
+  selectAll() {
+    this.selected = [...this.selected, ...this.items];
+  }
+
+  // @action
   excludeItem(item: IItem) {
     this.selected = without(this.selected, item);
   }
 
-  @action
+  // @action
   addItem() {
     if (!this.name.value) {
       return;
@@ -80,7 +95,7 @@ export class WithoutStoreComponent implements OnInit, OnDestroy {
     this.name.setValue('');
   }
 
-  @action
+  // @action
   clearBucket() {
     if (this.selected.length) {
       this.selected = [];

@@ -1,5 +1,8 @@
-<mat-list role="list" *mobxAutorun>
-  <mat-list-item *ngFor="let item of items">
-    <app-item [item]="item"></app-item>
-  </mat-list-item>
-</mat-list>
+<div class="free" *mobxAutorun>
+  <button *ngIf="store.canSelectAll" mat-button (click)="selectAll()">Выбрать всё</button>
+  <mat-list role="list">
+    <mat-list-item *ngFor="let item of store.freeItems">
+      <span class="item" (click)="selectItem(item)">{{ item.name }}</span>
+    </mat-list-item>
+  </mat-list>
+</div>

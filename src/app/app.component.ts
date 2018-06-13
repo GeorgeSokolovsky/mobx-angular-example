@@ -5,8 +5,8 @@ import {ChangeDetectionStrategy, Component, ViewEncapsulation} from '@angular/co
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
-  useStore = true;
+  useStore = false;
 }

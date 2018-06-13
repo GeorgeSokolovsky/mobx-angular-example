@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {Store} from '../store/app.store';
-import {IItems} from '../../model/IItem';
+import {action} from 'mobx-angular';
+import {IItem} from '../../model/IItem';
 
 @Component({
   selector: 'app-items',
@@ -11,7 +12,13 @@ export class ItemsComponent {
   constructor(public store: Store) {
   }
 
-  get items(): IItems {
-    return this.store.items;
+  @action
+  selectAll() {
+    this.store.selected = [...this.store.selected, ...this.store.freeItems];
+  }
+
+  @action
+  selectItem(item: IItem) {
+    this.store.selected.push(item);
   }
 }

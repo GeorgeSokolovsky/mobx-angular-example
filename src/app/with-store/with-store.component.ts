@@ -4,6 +4,8 @@ import {Store} from './store/app.store';
 import {debounceTime, distinctUntilChanged, takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 import {ApiService} from '../../services/api.service';
+import {IItems} from '../model/IItem';
+import {action} from 'mobx-angular';
 
 @Component({
   selector: 'app-with-store',
@@ -22,7 +24,7 @@ export class WithStoreComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.api.getItems()
-      .subscribe(items => this.store.setItems(items));
+      .subscribe(items => this.setItems(items));
 
     this.name.valueChanges
       .pipe(
@@ -46,7 +48,18 @@ export class WithStoreComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
+  @action
   addItem() {
-    this.store.addItem();
+    const id = this.store.items.length + 1;
+
+    this.store.items.push({id, name: this.name.value});
+
+    this.store.name = '';
+    this.name.setValue('');
+  }
+
+  @action
+  setItems(items: IItems) {
+    this.store.items = items;
   }
 }

@@ -13,11 +13,14 @@
 </div>
 
 <div class="lists">
-  <mat-list role="list">
-    <mat-list-item *ngFor="let item of items">
-      <span class="item" (click)="selectItem(item)">{{ item.name }}</span>
-    </mat-list-item>
-  </mat-list>
+  <div class="free">
+    <button *ngIf="canSelectAll" mat-button (click)="selectAll()">Выбрать всё</button>
+    <mat-list role="list">
+      <mat-list-item *ngFor="let item of items">
+        <span class="item" (click)="selectItem(item)">{{ item.name }}</span>
+      </mat-list-item>
+    </mat-list>
+  </div>
 
   <div class="selected">
     <div class="selected_label">

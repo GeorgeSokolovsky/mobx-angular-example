@@ -37,3 +37,8 @@
   cursor: pointer;
 }
 
+.free {
+  display: flex;
+  flex-direction: column;
+}
+
