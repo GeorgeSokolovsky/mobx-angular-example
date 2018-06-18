@@ -15,14 +15,12 @@ import {contains} from '../../utils/contains';
 })
 export class WithoutStoreComponent implements OnInit, OnDestroy {
   name = new FormControl();
-  filter = new FormControl();
+  filterControl = new FormControl();
 
-  // @observable
-  selected: IItems = [];
   // @observable
   private _items: IItems = [];
   // @observable
-  private filterValue = '';
+  private filter = '';
 
   private dispose: IReactionDisposer;
 
@@ -34,16 +32,21 @@ export class WithoutStoreComponent implements OnInit, OnDestroy {
     this.api.getItems()
       .subscribe(items => {
         this._items = items;
-        // this.cd.detectChanges();
       });
 
-    this.filter.valueChanges.subscribe(v => this.filterValue = v);
+    this.filterControl.valueChanges.subscribe(v => this.filter = v);
 
     // this.dispose = autorun(() => this.cd.detectChanges());
   }
 
   ngOnDestroy() {
     // this.dispose();
+  }
+
+  // @computed
+  // @log
+  get selected(): IItems {
+    return this._items.filter(({selected}) => selected);
   }
 
   // @computed
@@ -56,8 +59,8 @@ export class WithoutStoreComponent implements OnInit, OnDestroy {
   // @log
   get items(): IItems {
     return this._items.filter(item =>
-      contains(item, this.filterValue)
-      && !this.selected.includes(item)
+      contains(item, this.filter)
+      && !item.selected
     );
   }
 
@@ -69,17 +72,17 @@ export class WithoutStoreComponent implements OnInit, OnDestroy {
 
   // @action
   selectItem(item: IItem) {
-    this.selected.push(item);
+    item.selected = true;
   }
 
   // @action
   selectAll() {
-    this.selected = [...this.selected, ...this.items];
+    this.items.forEach(this.selectItem);
   }
 
   // @action
   excludeItem(item: IItem) {
-    this.selected = without(this.selected, item);
+    item.selected = false;
   }
 
   // @action
@@ -90,7 +93,7 @@ export class WithoutStoreComponent implements OnInit, OnDestroy {
 
     const id = this._items.length + 1;
 
-    this._items.push({id, name: this.name.value});
+    this._items.push({id, name: this.name.value, selected: false});
 
     this.name.setValue('');
   }
@@ -98,7 +101,7 @@ export class WithoutStoreComponent implements OnInit, OnDestroy {
   // @action
   clearBucket() {
     if (this.selected.length) {
-      this.selected = [];
+      this.selected.forEach(this.excludeItem);
     }
   }
 }

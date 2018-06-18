@@ -52,7 +52,7 @@ export class WithStoreComponent implements OnInit, OnDestroy {
   addItem() {
     const id = this.store.items.length + 1;
 
-    this.store.items.push({id, name: this.name.value});
+    this.store.items.push({id, name: this.name.value, selected: false});
 
     this.store.name = '';
     this.name.setValue('');

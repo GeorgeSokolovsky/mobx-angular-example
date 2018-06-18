@@ -2,27 +2,33 @@
   "items": [
     {
       "id": 0,
-      "name": "Стол"
+      "name": "Стол",
+      "selected": false
     },
     {
       "id": 1,
-      "name": "Стул"
+      "name": "Стул",
+      "selected": false
     },
     {
       "id": 2,
-      "name": "Шторы"
+      "name": "Шторы",
+      "selected": false
     },
     {
       "id": 3,
-      "name": "Диван"
+      "name": "Диван",
+      "selected": false
     },
     {
       "id": 4,
-      "name": "Шкаф"
+      "name": "Шкаф",
+      "selected": false
     },
     {
       "id": 5,
-      "name": "Люстра"
+      "name": "Люстра",
+      "selected": false
     }
   ]
 }
