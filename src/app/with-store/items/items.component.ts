@@ -14,11 +14,11 @@ export class ItemsComponent {
 
   @action
   selectAll() {
-    this.store.selected = [...this.store.selected, ...this.store.freeItems];
+    this.store.freeItems.forEach(this.selectItem);
   }
 
   @action
   selectItem(item: IItem) {
-    this.store.selected.push(item);
+    item.selected = true;
   }
 }

@@ -6,8 +6,6 @@ import {contains} from '../../../utils/contains';
 @Injectable()
 export class Store {
   @observable
-  selected: IItems = [];
-  @observable
   filter = '';
   @observable
   name = '';
@@ -15,8 +13,13 @@ export class Store {
   items: IItems = [];
 
   @computed
+  get selected(): IItems {
+    return this.items.filter(({selected}) => selected);
+  }
+
+  @computed
   get freeItems(): IItems {
-    return this.items.filter(item => contains(item, this.filter) && !this.selected.includes(item));
+    return this.items.filter(item => contains(item, this.filter) && !item.selected);
   }
 
   @computed

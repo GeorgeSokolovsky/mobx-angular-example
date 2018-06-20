@@ -1,25 +1,24 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {action, autorun, computed, observable} from 'mobx';
+import {action, autorun, computed, observable, runInAction} from 'mobx';
 import {log} from '../../utils/log';
 import {IItem, IItems} from '../model/IItem';
 import {ApiService} from '../../services/api.service';
-import {without} from '../../utils/without';
 import {IReactionDisposer} from 'mobx/lib/core/reaction';
 import {contains} from '../../utils/contains';
 
 @Component({
   selector: 'app-without-store',
   templateUrl: 'without-store.component.html',
-  // changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WithoutStoreComponent implements OnInit, OnDestroy {
   name = new FormControl();
   filterControl = new FormControl();
 
-  // @observable
+  @observable
   private _items: IItems = [];
-  // @observable
+  @observable
   private filter = '';
 
   private dispose: IReactionDisposer;
@@ -36,27 +35,27 @@ export class WithoutStoreComponent implements OnInit, OnDestroy {
 
     this.filterControl.valueChanges.subscribe(v => this.filter = v);
 
-    // this.dispose = autorun(() => this.cd.detectChanges());
+    this.dispose = autorun(() => this.cd.detectChanges());
   }
 
   ngOnDestroy() {
-    // this.dispose();
+    this.dispose();
   }
 
-  // @computed
-  // @log
+  @computed
+  @log
   get selected(): IItems {
     return this._items.filter(({selected}) => selected);
   }
 
-  // @computed
-  // @log
+  @computed
+  @log
   get selectedCount(): number {
     return this.selected.length;
   }
 
-  // @computed
-  // @log
+  @computed
+  @log
   get items(): IItems {
     return this._items.filter(item =>
       contains(item, this.filter)
@@ -64,28 +63,28 @@ export class WithoutStoreComponent implements OnInit, OnDestroy {
     );
   }
 
-  // @computed
-  // @log
+  @computed
+  @log
   get canSelectAll(): boolean {
     return !!this.items.length;
   }
 
-  // @action
+  @action
   selectItem(item: IItem) {
     item.selected = true;
   }
 
-  // @action
+  @action
   selectAll() {
     this.items.forEach(this.selectItem);
   }
 
-  // @action
+  @action
   excludeItem(item: IItem) {
     item.selected = false;
   }
 
-  // @action
+  @action
   addItem() {
     if (!this.name.value) {
       return;
@@ -98,7 +97,7 @@ export class WithoutStoreComponent implements OnInit, OnDestroy {
     this.name.setValue('');
   }
 
-  // @action
+  @action
   clearBucket() {
     if (this.selected.length) {
       this.selected.forEach(this.excludeItem);

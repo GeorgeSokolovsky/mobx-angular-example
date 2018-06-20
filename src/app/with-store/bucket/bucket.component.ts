@@ -23,11 +23,11 @@ export class BucketComponent {
 
   @action
   excludeItem(item: IItem) {
-    this.store.selected = without(this.store.selected, item);
+    item.selected = false;
   }
 
   @action
   clearBucket() {
-    this.store.selected = [];
+    this.store.selected.forEach(this.excludeItem);
   }
 }
