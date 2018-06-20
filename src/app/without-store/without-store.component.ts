@@ -1,11 +1,13 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {action, autorun, computed, observable, runInAction} from 'mobx';
+import {action, autorun, computed, observable} from 'mobx';
 import {log} from '../../utils/log';
 import {IItem, IItems} from '../model/IItem';
 import {ApiService} from '../../services/api.service';
 import {IReactionDisposer} from 'mobx/lib/core/reaction';
 import {contains} from '../../utils/contains';
+import {MobXEvent, mobXEvents} from '../../utils/debug';
+import {filter} from 'rxjs/operators';
 
 @Component({
   selector: 'app-without-store',
@@ -36,6 +38,10 @@ export class WithoutStoreComponent implements OnInit, OnDestroy {
     this.filterControl.valueChanges.subscribe(v => this.filter = v);
 
     this.dispose = autorun(() => this.cd.detectChanges());
+
+    // mobXEvents()
+    //   .pipe(filter(({type}) => type === MobXEvent.COMPUTED))
+    //   .subscribe(console.log);
   }
 
   ngOnDestroy() {
