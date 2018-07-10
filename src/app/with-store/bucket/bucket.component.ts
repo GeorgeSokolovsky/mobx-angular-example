@@ -2,7 +2,6 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {action} from 'mobx-angular';
 import {Store} from '../store/app.store';
 import {IItem} from '../../model/IItem';
-import {without} from '../../../utils/without';
 
 @Component({
   selector: 'app-bucket',

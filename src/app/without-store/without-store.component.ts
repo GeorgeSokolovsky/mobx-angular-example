@@ -12,18 +12,18 @@ import {filter} from 'rxjs/operators';
 @Component({
   selector: 'app-without-store',
   templateUrl: 'without-store.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WithoutStoreComponent implements OnInit, OnDestroy {
   name = new FormControl();
   filterControl = new FormControl();
 
-  @observable
+  // @observable
   private _items: IItems = [];
-  @observable
+  // @observable
   private filter = '';
 
-  private dispose: IReactionDisposer;
+  // private dispose: IReactionDisposer;
 
   constructor(private api: ApiService,
               private cd: ChangeDetectorRef) {
@@ -37,7 +37,7 @@ export class WithoutStoreComponent implements OnInit, OnDestroy {
 
     this.filterControl.valueChanges.subscribe(v => this.filter = v);
 
-    this.dispose = autorun(() => this.cd.detectChanges());
+    // this.dispose = autorun(() => this.cd.detectChanges());
 
     // mobXEvents()
     //   .pipe(filter(({type}) => type === MobXEvent.COMPUTED))
@@ -45,23 +45,23 @@ export class WithoutStoreComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.dispose();
+    // this.dispose();
   }
 
-  @computed
-  @log
+  // @computed
+  // @log
   get selected(): IItems {
     return this._items.filter(({selected}) => selected);
   }
 
-  @computed
-  @log
+  // @computed
+  // @log
   get selectedCount(): number {
     return this.selected.length;
   }
 
-  @computed
-  @log
+  // @computed
+  // @log
   get items(): IItems {
     return this._items.filter(item =>
       contains(item, this.filter)
@@ -69,28 +69,28 @@ export class WithoutStoreComponent implements OnInit, OnDestroy {
     );
   }
 
-  @computed
-  @log
+  // @computed
+  // @log
   get canSelectAll(): boolean {
     return !!this.items.length;
   }
 
-  @action
+  // @action
   selectItem(item: IItem) {
     item.selected = true;
   }
 
-  @action
+  // @action
   selectAll() {
     this.items.forEach(this.selectItem);
   }
 
-  @action
+  // @action
   excludeItem(item: IItem) {
     item.selected = false;
   }
 
-  @action
+  // @action
   addItem() {
     if (!this.name.value) {
       return;
@@ -103,7 +103,7 @@ export class WithoutStoreComponent implements OnInit, OnDestroy {
     this.name.setValue('');
   }
 
-  @action
+  // @action
   clearBucket() {
     if (this.selected.length) {
       this.selected.forEach(this.excludeItem);
